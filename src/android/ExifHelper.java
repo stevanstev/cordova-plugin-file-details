@@ -202,24 +202,22 @@ public class ExifHelper {
         JSONObject result = new JSONObject();
         
         // Store the details into the json
-        result.put("aperture", this.aperture);
         result.put("datetime", this.datetime);
+
+        // Image Stuff
+        result.put("aperture", this.aperture);
         result.put("exposureTime", this.exposureTime);
         result.put("flash", this.flash);
-        result.put("gpsAltitude", this.gpsAltitude);
-        result.put("gpsAltitudeRef", this.gpsAltitudeRef);
-        result.put("gpsDateStamp", this.gpsDateStamp);
-        result.put("gpsLatitude", this.gpsLatitude);
-        result.put("gpsLatitudeRef", this.gpsLatitudeRef);
-        result.put("gpsLongitude", this.gpsLongitude);
-        result.put("gpsLongitudeRef", this.gpsLongitudeRef);
-        result.put("gpsProcessingMethod", this.gpsProcessingMethod);
-        result.put("gpsTimestamp", this.gpsTimestamp);
-        result.put("iso", this.iso);
-        result.put("make", this.make);
-        result.put("model", this.model);
-        result.put("orientation", this.orientation);
         result.put("whiteBalance", this.whiteBalance);
+        result.put("orientation", this.orientation);
+
+        // GPS Stuff
+        result.put("altitude", this.gpsAltitude);
+        result.put("altitudeRef", this.gpsAltitudeRef);
+        result.put("latitude", this.gpsLatitude);
+        result.put("latitudeRef", this.gpsLatitudeRef);
+        result.put("longitude", this.gpsLongitude);
+        result.put("longitudeRef", this.gpsLongitudeRef);
 
         return result;
 
