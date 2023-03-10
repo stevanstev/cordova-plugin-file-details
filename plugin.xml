@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="cordova-plugin-file-details" version="1.0.0">
+
+    <name>File Details</name>
+    <description>Cordova File Details Plugin</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,file,details</keywords>
+    
+    <repo>https://github.com/kepat/cordova-plugin-file-details</repo>
+
+    <!-- frameworks supported -->
+    <engines>
+        <engine name="cordova" version=">=10.0.0"/>
+        <engine name="cordova-android" version=">=9.0.0" />
+        <engine name="cordova-ios" version=">=6.1.1" />
+    </engines>
+
+    <!-- javascript interface -->
+    <js-module src="www/FileDetails.js" name="FileDetails">
+        <clobbers target="fileDetails" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <!-- plugin -->
+            <feature name="FileDetails">
+                <param name="android-package" value="com.kepat.cordova.file.details.FileDetails"/>
+            </feature>
+        </config-file>
+
+        <!-- source files -->
+        <source-file src="src/android/FileDetails.java" target-dir="src/com/kepat/cordova/file/details" />
+        <source-file src="src/android/ExifHelper.java" target-dir="src/com/kepat/cordova/file/details" />
+    </platform>
+
+    
+
+</plugin>

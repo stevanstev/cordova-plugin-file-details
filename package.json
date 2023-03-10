@@ -1,0 +1,33 @@
+{
+    "name": "cordova-plugin-file-details",
+    "version": "1.0.0",
+    "description": "Cordova file details plugin.",
+    "cordova": {
+      "id": "cordova-plugin-file-details",
+      "platforms": [
+        "android",
+        "ios"
+      ]
+    },
+    "repository": "github:kepat/cordova-plugin-file-details",
+    "bugs": "https://github.com/kepat/cordova-plugin-file-details/issues",
+    "keywords": [
+      "cordova",
+      "file",
+      "details",
+      "ecosystem:cordova",
+      "cordova-android",
+      "cordova-ios"
+    ],
+    "author": "Kevin Patrick Tan",
+    "license": "Apache-2.0",
+    "engines": {
+      "cordovaDependencies": {
+        "0.0.0": {
+            "cordova": ">=10.0.0",
+            "cordova-android": ">=9.0.0",
+            "cordova-ios": ">=6.1.1"
+        }
+      }
+    }
+  }
