@@ -10,16 +10,14 @@ var fileDetailsExport = {};
 
 /**
  * Fetch Details Function
+ * @param {string} filePath - file path of the file to be processed
  * @param {function} successCallback - function triggered if successful
  * @param {function} errorCallback - function triggered if failed
  */
-fileDetailsExport.fetch = function (successCallback, errorCallback, options) {
-
-    options = options || {};
-
+fileDetailsExport.fetch = function (filePath, successCallback, errorCallback) {
     // Prepare the arguments to be passed to the native function
     var args = [];
-    args.push(getValue(options.filePath, false)); // File Path
+    args.push(getValue(filePath, false)); // File Path
 
     exec(successCallback, errorCallback, 'FileDetails', 'fetch', args);
 };
