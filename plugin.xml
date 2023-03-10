@@ -36,6 +36,18 @@
         <source-file src="src/android/ExifHelper.java" target-dir="src/com/kepat/cordova/file/details" />
     </platform>
 
-    
+    <!-- ios -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <!-- plugin -->
+            <feature name="FileDetails">
+                <param name="ios-package" value="FileDetails"/>
+            </feature>
+        </config-file>
+
+        <!-- source files -->
+        <header-file src="src/ios/FileDetails.h" />
+        <source-file src="src/ios/FileDetails.m" />
+    </platform>
 
 </plugin>
