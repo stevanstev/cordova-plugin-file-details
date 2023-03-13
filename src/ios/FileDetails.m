@@ -49,15 +49,17 @@
                 information[@"orientation"] = metadata[@"{TIFF}"][@"Orientation"];
             }
         }
+
+        // Hide the altitudes first
+        // if (metadata[@"{GPS}"][@"Altitude"] != nil) {
+        //         information[@"altitude"] = metadata[@"{GPS}"][@"Altitude"];
+        // }
+        // if (metadata[@"{GPS}"][@"AltitudeRef"] != nil) {
+        //     information[@"altitudeRef"] = metadata[@"{GPS}"][@"AltitudeRef"];
+        // }
         
         // GPS
         if (metadata[@"{GPS}"] != nil) {
-            if (metadata[@"{GPS}"][@"Altitude"] != nil) {
-                information[@"altitude"] = metadata[@"{GPS}"][@"Altitude"];
-            }
-            if (metadata[@"{GPS}"][@"AltitudeRef"] != nil) {
-                information[@"altitudeRef"] = metadata[@"{GPS}"][@"AltitudeRef"];
-            }
             if (metadata[@"{GPS}"][@"Latitude"] != nil) {
                 information[@"latitude"] = metadata[@"{GPS}"][@"Latitude"];
             }

@@ -211,16 +211,48 @@ public class ExifHelper {
         result.put("whiteBalance", this.whiteBalance);
         result.put("orientation", this.orientation);
 
+        // Hide the altitudes first
+        // result.put("altitude", this.gpsAltitude);
+        // result.put("altitudeRef", this.gpsAltitudeRef);
+
         // GPS Stuff
-        result.put("altitude", this.gpsAltitude);
-        result.put("altitudeRef", this.gpsAltitudeRef);
-        result.put("latitude", this.gpsLatitude);
+        result.put("latitude", convertDMSToDecimal(this.gpsLatitude, this.gpsLatitudeRef));
         result.put("latitudeRef", this.gpsLatitudeRef);
-        result.put("longitude", this.gpsLongitude);
+        result.put("longitude", convertDMSToDecimal(this.gpsLongitude, this.gpsLongitudeRef));
         result.put("longitudeRef", this.gpsLongitudeRef);
 
         return result;
 
+    }
+
+    /**
+     * Convert latitude or longitude 
+     * from DMS format to decimal format.
+     * 
+     * @return String
+     */
+    private String convertDMSToDecimal(String dmsString, String indicator){
+        // Make sure it is not null
+        if (dmsString == null) {
+            return null;
+        }
+
+        String[] dms = dmsString.split(",");
+        
+        int days = Integer.parseInt(dms[0].split("/")[0]);
+        int minutes = Integer.parseInt(dms[1].split("/")[0]);
+
+        double secondsNumerator = Double.parseDouble(dms[2].split("/")[0]);
+        double secondsDenominator = Double.parseDouble(dms[2].split("/")[1]);
+        
+        String value = String.valueOf(days + (minutes / 60.0) + ((secondsNumerator/secondsDenominator) / 3600.0));
+
+        // Check the positive or negative value
+        if (indicator.equals("S") || indicator.equals("W"))  {
+            return "-" + value;
+        }
+            
+        return value;
     }
 
 }
