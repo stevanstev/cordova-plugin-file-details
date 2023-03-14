@@ -3,7 +3,10 @@ package com.kepat.cordova.file.details;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 
+import android.net.Uri;
 import android.util.Log;
+
+import java.io.InputStream;
 import java.io.IOException;
 
 import org.json.JSONArray;
@@ -14,7 +17,7 @@ public class FileDetails extends CordovaPlugin {
 
     private static final String ACTION_FETCH_DETAILS = "fetch";
 
-    public static final String TAG = "FILE_DETAILS_CORDOVA_PLUGIN_" + FileDetails.class.getSimpleName();
+    public static final String TAG = "FD_CORDOVA_PLUGIN_" + FileDetails.class.getSimpleName();
 
     private CallbackContext callbackContext; // Cordova plugin callback context
 
@@ -53,20 +56,22 @@ public class FileDetails extends CordovaPlugin {
         // Prepare the result
         JSONObject result = new JSONObject();
 
-        // Remove unecessary file:// in the file path
-        filePath = filePath.toString().replace("file://", "");
+        // Retrieve the Uri from the filePath
+        Uri uri =  Uri.parse(filePath);
 
-        // Retrieve the file details
+        // Prepare the input stream and exifhelper
+        InputStream inputStream;
         ExifHelper exif = new ExifHelper();
 
         try {
-            exif.createInFile(filePath);
+            // Get the input stream
+            inputStream = this.cordova.getActivity().getApplicationContext().getContentResolver().openInputStream(uri);
+
+            // Retrieve the file details
+            exif.createInFile(inputStream);
             exif.readExifData();
             result = exif.generateJSON();
-        } catch (JSONException e) {
-            Log.d(TAG, e.getMessage());
-            callbackContext.error(e.getMessage());
-        } catch (IOException e) {
+        } catch (JSONException | IOException e) {
             Log.d(TAG, e.getMessage());
             callbackContext.error(e.getMessage());
         }
