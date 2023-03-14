@@ -1,0 +1,4 @@
+dependencies {
+    // Support Lib Dependencies
+    compile 'com.android.support:exifinterface:27.0.0'
+}

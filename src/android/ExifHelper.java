@@ -18,9 +18,10 @@
 */
 package com.kepat.cordova.file.details;
 
+import java.io.InputStream;
 import java.io.IOException;
 
-import android.media.ExifInterface;
+import androidx.exifinterface.media.ExifInterface;
 
 import org.json.JSONObject;
 import org.json.JSONException;
@@ -58,7 +59,7 @@ public class ExifHelper {
      * @param filePath
      * @throws IOException
      */
-    public void createInFile(String filePath) throws IOException {
+    public void createInFile(InputStream filePath) throws IOException {
         this.inFile = new ExifInterface(filePath);
     }
 
@@ -68,7 +69,7 @@ public class ExifHelper {
      * @param filePath
      * @throws IOException
      */
-    public void createOutFile(String filePath) throws IOException {
+    public void createOutFile(InputStream filePath) throws IOException {
         this.outFile = new ExifInterface(filePath);
     }
 
@@ -76,7 +77,7 @@ public class ExifHelper {
      * Reads all the EXIF data from the input file.
      */
     public void readExifData() {
-        this.aperture = inFile.getAttribute(ExifInterface.TAG_APERTURE);
+        this.aperture = inFile.getAttribute(ExifInterface.TAG_F_NUMBER);
         this.datetime = inFile.getAttribute(ExifInterface.TAG_DATETIME);
         this.exposureTime = inFile.getAttribute(ExifInterface.TAG_EXPOSURE_TIME);
         this.flash = inFile.getAttribute(ExifInterface.TAG_FLASH);
@@ -90,7 +91,7 @@ public class ExifHelper {
         this.gpsLongitudeRef = inFile.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
         this.gpsProcessingMethod = inFile.getAttribute(ExifInterface.TAG_GPS_PROCESSING_METHOD);
         this.gpsTimestamp = inFile.getAttribute(ExifInterface.TAG_GPS_TIMESTAMP);
-        this.iso = inFile.getAttribute(ExifInterface.TAG_ISO);
+        this.iso = inFile.getAttribute(ExifInterface.TAG_ISO_SPEED_RATINGS);
         this.make = inFile.getAttribute(ExifInterface.TAG_MAKE);
         this.model = inFile.getAttribute(ExifInterface.TAG_MODEL);
         this.orientation = inFile.getAttribute(ExifInterface.TAG_ORIENTATION);
@@ -110,7 +111,7 @@ public class ExifHelper {
         }
 
         if (this.aperture != null) {
-            this.outFile.setAttribute(ExifInterface.TAG_APERTURE, this.aperture);
+            this.outFile.setAttribute(ExifInterface.TAG_F_NUMBER, this.aperture);
         }
         if (this.datetime != null) {
             this.outFile.setAttribute(ExifInterface.TAG_DATETIME, this.datetime);
@@ -152,7 +153,7 @@ public class ExifHelper {
             this.outFile.setAttribute(ExifInterface.TAG_GPS_TIMESTAMP, this.gpsTimestamp);
         }
         if (this.iso != null) {
-            this.outFile.setAttribute(ExifInterface.TAG_ISO, this.iso);
+            this.outFile.setAttribute(ExifInterface.TAG_ISO_SPEED_RATINGS, this.iso);
         }
         if (this.make != null) {
             this.outFile.setAttribute(ExifInterface.TAG_MAKE, this.make);
