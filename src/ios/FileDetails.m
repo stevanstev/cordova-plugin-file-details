@@ -84,7 +84,7 @@
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: [error localizedDescription]];
         } else {
             NSString* jsonString = [[NSString alloc] initWithData: jsonData encoding:NSUTF8StringEncoding];
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: jsonString];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: jsonString];
         }
         
         // Callback
