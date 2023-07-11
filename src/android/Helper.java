@@ -18,6 +18,9 @@
 */
 package com.kepat.cordova.file.details;
 
+import android.content.Context;
+import android.net.Uri;
+
 import java.io.InputStream;
 import java.io.IOException;
 
@@ -26,9 +29,9 @@ import androidx.exifinterface.media.ExifInterface;
 import org.json.JSONObject;
 import org.json.JSONException;
 
-public class ExifHelper {
+public class Helper {
     
-
+     // Original Exif properties
      private String aperture = null;
      private String datetime = null;
      private String exposureTime = null;
@@ -49,6 +52,8 @@ public class ExifHelper {
      private String orientation = null;
      private String whiteBalance = null;
 
+     // Not depend on Exif plugin
+     private String mimeType = null;
 
      private ExifInterface inFile = null;
      private ExifInterface outFile = null;
@@ -76,7 +81,7 @@ public class ExifHelper {
     /**
      * Reads all the EXIF data from the input file.
      */
-    public void readExifData() {
+    public void readExifData(Context context, Uri uri) {
         this.aperture = inFile.getAttribute(ExifInterface.TAG_F_NUMBER);
         this.datetime = inFile.getAttribute(ExifInterface.TAG_DATETIME);
         this.exposureTime = inFile.getAttribute(ExifInterface.TAG_EXPOSURE_TIME);
@@ -96,8 +101,10 @@ public class ExifHelper {
         this.model = inFile.getAttribute(ExifInterface.TAG_MODEL);
         this.orientation = inFile.getAttribute(ExifInterface.TAG_ORIENTATION);
         this.whiteBalance = inFile.getAttribute(ExifInterface.TAG_WHITE_BALANCE);
+        //A MIME type for the content, or null if the URL is invalid or the type is unknown
+        this.mimeType = context.getContentResolver().getType(uri);
     }
-
+    
 
     /**
      * Writes the previously stored EXIF data to the output file.
@@ -221,7 +228,7 @@ public class ExifHelper {
         result.put("latitudeRef", this.gpsLatitudeRef);
         result.put("longitude", convertDMSToDecimal(this.gpsLongitude, this.gpsLongitudeRef));
         result.put("longitudeRef", this.gpsLongitudeRef);
-
+        result.put("mimeType",this.mimeType);
         return result;
 
     }

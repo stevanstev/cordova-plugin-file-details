@@ -5,10 +5,10 @@ import org.apache.cordova.CallbackContext;
 
 import android.net.Uri;
 import android.util.Log;
+import android.content.Context;
 
 import java.io.InputStream;
 import java.io.IOException;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
@@ -59,17 +59,17 @@ public class FileDetails extends CordovaPlugin {
         // Retrieve the Uri from the filePath
         Uri uri =  Uri.parse(filePath);
 
-        // Prepare the input stream and exifhelper
+        // Prepare the input stream and Helper
         InputStream inputStream;
-        ExifHelper exif = new ExifHelper();
-
+        Helper exif = new Helper();
+        
         try {
             // Get the input stream
             inputStream = this.cordova.getActivity().getApplicationContext().getContentResolver().openInputStream(uri);
-
+            Context context = this.cordova.getActivity().getApplicationContext();
             // Retrieve the file details
             exif.createInFile(inputStream);
-            exif.readExifData();
+            exif.readExifData(context,uri);
             result = exif.generateJSON();
         } catch (JSONException | IOException e) {
             Log.d(TAG, e.getMessage());
