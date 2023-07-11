@@ -101,7 +101,8 @@ public class Helper {
         this.model = inFile.getAttribute(ExifInterface.TAG_MODEL);
         this.orientation = inFile.getAttribute(ExifInterface.TAG_ORIENTATION);
         this.whiteBalance = inFile.getAttribute(ExifInterface.TAG_WHITE_BALANCE);
-        //A MIME type for the content, or null if the URL is invalid or the type is unknown
+
+        // A MIME type for the content, or null if the URL is invalid or the type is unknown
         this.mimeType = context.getContentResolver().getType(uri);
     }
     
@@ -228,7 +229,10 @@ public class Helper {
         result.put("latitudeRef", this.gpsLatitudeRef);
         result.put("longitude", convertDMSToDecimal(this.gpsLongitude, this.gpsLongitudeRef));
         result.put("longitudeRef", this.gpsLongitudeRef);
+
+        // MIME Type
         result.put("mimeType",this.mimeType);
+
         return result;
 
     }

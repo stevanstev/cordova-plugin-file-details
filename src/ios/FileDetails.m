@@ -15,19 +15,19 @@
         
         // Remove unecessary file:// in the file path
         filePath = [filePath stringByReplacingOccurrencesOfString:@"file://" withString:@""];
-        
-        // Retrieve the metadata
+
+        // Retrieve the nsurl object for the file path
         NSURL *url = [NSURL fileURLWithPath:filePath];
-        CGImageSourceRef source = CGImageSourceCreateWithURL( (CFURLRef) url, NULL);
-        CFDictionaryRef dictRef = CGImageSourceCopyPropertiesAtIndex(source,0,NULL);
-        NSDictionary* metadata = (__bridge NSDictionary *)dictRef;
-        
-        NSURLRequest* fileUrlRequest = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:.1];
-        dispatch_group_t group = dispatch_group_create();
-        dispatch_group_enter(group);
 
         // Prepare the dictionary to be returned
         NSMutableDictionary *information = [[NSMutableDictionary alloc] init];
+        
+        // Retrieve the mimeType
+        NSURLRequest* fileUrlRequest = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:.1];
+        
+        dispatch_group_t group = dispatch_group_create();
+        dispatch_group_enter(group);
+
         __block NSString* MIMEType;
         NSURLSession *session = [NSURLSession sharedSession];
         NSURLSessionDataTask *uploadTask = [session dataTaskWithRequest:fileUrlRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error){
@@ -38,14 +38,22 @@
            }
         ];
         [uploadTask resume];
+
         dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
-        if(MIMEType){
+
+        if (MIMEType) {
             information[@"mimeType"] = MIMEType;
         }
+
+        // Retrieve the metadata for the image
+        CGImageSourceRef source = CGImageSourceCreateWithURL( (CFURLRef) url, NULL);
+        CFDictionaryRef dictRef = CGImageSourceCopyPropertiesAtIndex(source,0,NULL);
+        NSDictionary* metadata = (__bridge NSDictionary *)dictRef;
+
         // Check is it IMAGE file or not
         UIImage *image = [UIImage imageWithContentsOfFile:filePath];
         if (image != nil) {
-        // Exif
+            // Exif
             if (metadata[@"{Exif}"] != nil) {
                 if (metadata[@"{Exif}"][@"DateTimeOriginal"] != nil) {
                     information[@"datetime"] = metadata[@"{Exif}"][@"DateTimeOriginal"];
@@ -103,7 +111,7 @@
         NSError* error = nil;
         NSData* jsonData = [NSJSONSerialization dataWithJSONObject:information options:0 error:&error];
         if (error != nil){
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: @"QWe"];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: [error localizedDescription]];
         } else {
             NSString* jsonString = [[NSString alloc] initWithData: jsonData encoding:NSUTF8StringEncoding];
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: jsonString];

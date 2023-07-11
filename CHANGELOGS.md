@@ -16,7 +16,7 @@
 * Currently only implemented for image files using exif.
 * Receives the file path then retreiving the necessary details.
 
-### 1.0.1 (March 13, 2023)
+### 1.0.1 (? ?, ?)
 
 **Feature:**
 
@@ -25,3 +25,4 @@ Applied a conversion from DMS to a normal GPS location for android.
 Replaced the package of exifinterface to the latest one and change the constructor to use input stream.
 Parse the file path to input stream to support both file or content.
 Fixed the wrong success callback for iOS.
+Included the file type extension (mime).

@@ -64,12 +64,14 @@ public class FileDetails extends CordovaPlugin {
         Helper exif = new Helper();
         
         try {
-            // Get the input stream
+            // Get the input stream and context
             inputStream = this.cordova.getActivity().getApplicationContext().getContentResolver().openInputStream(uri);
             Context context = this.cordova.getActivity().getApplicationContext();
+
             // Retrieve the file details
             exif.createInFile(inputStream);
-            exif.readExifData(context,uri);
+            exif.readExifData(context, uri);
+            
             result = exif.generateJSON();
         } catch (JSONException | IOException e) {
             Log.d(TAG, e.getMessage());
