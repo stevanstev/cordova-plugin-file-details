@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.util.Log;
 import android.content.Context;
 
-import java.io.InputStream;
 import java.io.IOException;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -35,7 +34,7 @@ public class FileDetails extends CordovaPlugin {
         this.callbackContext = callbackContext;
 
         // Fetch the details of the file
-        if (action.equals(this.ACTION_FETCH_DETAILS)) {
+        if (action.equals(FileDetails.ACTION_FETCH_DETAILS)) {
             // Get the arguments required 
             String filePath = args.getString(0);
 
@@ -56,23 +55,21 @@ public class FileDetails extends CordovaPlugin {
         // Prepare the result
         JSONObject result = new JSONObject();
 
+        // Get the context
+        Context context = this.cordova.getActivity().getApplicationContext();
+
         // Retrieve the Uri from the filePath
         Uri uri =  Uri.parse(filePath);
 
-        // Prepare the input stream and Helper
-        InputStream inputStream;
-        Helper exif = new Helper();
+        // Prepare File Helper
+        FileHelper fileHelper = new FileHelper();
         
         try {
-            // Get the input stream and context
-            inputStream = this.cordova.getActivity().getApplicationContext().getContentResolver().openInputStream(uri);
-            Context context = this.cordova.getActivity().getApplicationContext();
-
             // Retrieve the file details
-            exif.createInFile(inputStream);
-            exif.readExifData(context, uri);
+            fileHelper.readDetails(context, uri);
             
-            result = exif.generateJSON();
+            // Retrieve the details in json format
+            result = fileHelper.generateJSON();
         } catch (JSONException | IOException e) {
             Log.d(TAG, e.getMessage());
             callbackContext.error(e.getMessage());

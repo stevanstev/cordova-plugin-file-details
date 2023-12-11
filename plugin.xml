@@ -33,7 +33,7 @@
 
         <!-- source files -->
         <source-file src="src/android/FileDetails.java" target-dir="src/com/kepat/cordova/file/details" />
-        <source-file src="src/android/Helper.java" target-dir="src/com/kepat/cordova/file/details" />
+        <source-file src="src/android/FileHelper.java" target-dir="src/com/kepat/cordova/file/details" />
 
         <!-- additonal gradle -->
         <framework src="src/android/gradle/build-extras.gradle" custom="true" type="gradleReference"/>
