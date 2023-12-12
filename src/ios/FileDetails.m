@@ -21,29 +21,6 @@
 
         // Prepare the dictionary to be returned
         NSMutableDictionary *information = [[NSMutableDictionary alloc] init];
-        
-        // Retrieve the mimeType
-        NSURLRequest* fileUrlRequest = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:.1];
-        
-        dispatch_group_t group = dispatch_group_create();
-        dispatch_group_enter(group);
-
-        __block NSString* MIMEType;
-        NSURLSession *session = [NSURLSession sharedSession];
-        NSURLSessionDataTask *uploadTask = [session dataTaskWithRequest:fileUrlRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error){
-            if(!error){
-               MIMEType = [response MIMEType];
-            }
-            dispatch_group_leave(group);
-           }
-        ];
-        [uploadTask resume];
-
-        dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
-
-        if (MIMEType) {
-            information[@"mimeType"] = MIMEType;
-        }
 
         // Retrieve the metadata for the image
         CGImageSourceRef source = CGImageSourceCreateWithURL( (CFURLRef) url, NULL);
@@ -106,6 +83,32 @@
             // Release to avoid memory leakage
             CFRelease(dictRef);
         }
+
+        // Retrieve the mimeType
+        NSURLRequest* fileUrlRequest = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:.1];
+        
+        dispatch_group_t group = dispatch_group_create();
+        dispatch_group_enter(group);
+
+        __block NSString* MIMEType;
+        NSURLSession *session = [NSURLSession sharedSession];
+        NSURLSessionDataTask *uploadTask = [session dataTaskWithRequest:fileUrlRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error){
+            if(!error){
+               MIMEType = [response MIMEType];
+            }
+            dispatch_group_leave(group);
+           }
+        ];
+        [uploadTask resume];
+
+        dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+
+        if (MIMEType) {
+            information[@"mimeType"] = MIMEType;
+        }
+
+        // File Name
+        information[@"fileName"] = getFileNameFromPath(filePath);
         
         // Parse the retrieved data
         NSError* error = nil;
@@ -122,6 +125,13 @@
         
     }];
     
+}
+
+// Ge the file name
+NSString *getFileNameFromPath(NSString *filePath) {
+    // Get the file name from the file path
+    NSString *fileName = [filePath lastPathComponent];
+    return fileName;
 }
 
 @end

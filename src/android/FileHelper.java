@@ -150,7 +150,7 @@ public class FileHelper {
     /**
      * Get the file name
      */
-    public static String readFileName(Context context, Uri uri) {
+    private static String readFileName(Context context, Uri uri) {
         String displayName = null;
 
         // Try to query the file name using the ContentResolver
