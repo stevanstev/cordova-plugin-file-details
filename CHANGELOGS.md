@@ -16,7 +16,7 @@
 * Currently only implemented for image files using exif.
 * Receives the file path then retreiving the necessary details.
 
-### 1.1.0 (December 12, 2023)
+### 1.0.1 (December 12, 2023)
 
 **Feature:**
 
